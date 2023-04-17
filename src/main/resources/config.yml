@@ -1,0 +1,5 @@
+commands:
+  command:
+    enable: true
+    command: "command"
+    permission: "hui"

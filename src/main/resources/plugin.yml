@@ -1,0 +1,6 @@
+name: RespawnCommands
+version: '${project.version}'
+main: ru.whitebeef.respawncommands.RespawnCommands
+api-version: 1.19
+depend: [ BeefLibrary ]
+authors: [ _WhiteBeef_ ]
