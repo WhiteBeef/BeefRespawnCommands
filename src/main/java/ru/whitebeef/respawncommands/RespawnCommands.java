@@ -1,11 +1,12 @@
 package ru.whitebeef.respawncommands;
 
+import com.destroystokyo.paper.event.player.PlayerPostRespawnEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.whitebeef.beeflibrary.BeefLibrary;
 import ru.whitebeef.beeflibrary.commands.AbstractCommand;
@@ -41,18 +42,26 @@ public final class RespawnCommands extends JavaPlugin implements Listener {
         ConfigurationSection section = getConfig().getConfigurationSection("commands");
         for (String namespace : section.getKeys(false)) {
             if (section.getBoolean(namespace + ".enable")) {
-                commands.add(new Command(namespace, section.getString(namespace + "command"), section.getString(namespace + "permission")));
+                commands.add(new Command(namespace, section.getString(namespace + ".command"),
+                        section.getString(namespace + ".permission")));
             }
         }
     }
 
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent event) {
-        if (event.getRespawnReason() != PlayerRespawnEvent.RespawnReason.DEATH) {
+    public void onPlayerDead(PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+        BeefLibrary.jedisSet(this, player.getUniqueId().toString(), String.valueOf(System.currentTimeMillis()));
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerPostRespawnEvent event) {
+        if (BeefLibrary.jedisGet(this, event.getPlayer().getUniqueId().toString()) == null) {
             return;
         }
         Player player = event.getPlayer();
-        commands.stream().filter(command -> player.hasPermission(command.getPermission())).forEach(command ->
+        BeefLibrary.jedisDel(this, player.getUniqueId().toString());
+        commands.stream().filter(command -> command.hasPermission(player)).forEach(command ->
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), PAPIUtils.setPlaceholders(player, command.getCommand())));
     }
 

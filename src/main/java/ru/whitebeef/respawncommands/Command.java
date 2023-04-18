@@ -1,5 +1,9 @@
 package ru.whitebeef.respawncommands;
 
+import org.bukkit.entity.Player;
+
+import java.util.Objects;
+
 public class Command {
 
     private final String namespace;
@@ -22,5 +26,26 @@ public class Command {
 
     public String getPermission() {
         return permission;
+    }
+
+    public boolean hasPermission(Player player) {
+        return player.hasPermission(permission);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Command command = (Command) o;
+        return Objects.equals(namespace, command.namespace);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(namespace);
     }
 }
