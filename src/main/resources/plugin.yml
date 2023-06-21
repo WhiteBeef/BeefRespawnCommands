@@ -2,5 +2,6 @@ name: RespawnCommands
 version: '${project.version}'
 main: ru.whitebeef.respawncommands.RespawnCommands
 api-version: 1.19
-depend: [ BeefLibrary ]
+softdepend: [ BeefLibrary ]
 authors: [ _WhiteBeef_ ]
+folia-supported: true

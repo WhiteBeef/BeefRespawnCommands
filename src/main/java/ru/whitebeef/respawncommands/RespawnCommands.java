@@ -55,7 +55,7 @@ public final class RespawnCommands extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        if (event.getRespawnReason() == PlayerRespawnEvent.RespawnReason.DEATH) {
+        if (event.getRespawnReason() != PlayerRespawnEvent.RespawnReason.DEATH && event.getRespawnReason() != PlayerRespawnEvent.RespawnReason.PLUGIN) {
             return;
         }
         Player player = event.getPlayer();
