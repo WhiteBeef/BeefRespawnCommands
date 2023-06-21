@@ -3,3 +3,5 @@ commands:
     enable: true
     command: "command"
     permission: "hui"
+firstJoinCommands:
+  - "kit claim default %player_name%"

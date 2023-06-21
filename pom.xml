@@ -20,6 +20,14 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <outputDirectory>C:\plugins\BeefPlugins\${project.name}</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
@@ -67,8 +75,15 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.19.2-R0.1-SNAPSHOT</version>
+            <version>1.19.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.whitebeef</groupId>
+            <artifactId>BeefLibrary</artifactId>
+            <version>1.1.1</version>
+            <scope>system</scope>
+            <systemPath>C:/plugins/BeefPlugins/BeefLibrary/BeefLibrary.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
