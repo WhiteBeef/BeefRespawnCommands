@@ -7,39 +7,25 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import ru.whitebeef.beeflibrary.BeefLibrary;
-import ru.whitebeef.beeflibrary.commands.AbstractCommand;
-import ru.whitebeef.beeflibrary.commands.SimpleCommand;
 import ru.whitebeef.beeflibrary.placeholderapi.PAPIUtils;
+import ru.whitebeef.beeflibrary.plugin.BeefPlugin;
 import ru.whitebeef.beeflibrary.utils.ScheduleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class RespawnCommands extends JavaPlugin implements Listener {
+public final class RespawnCommands extends BeefPlugin implements Listener {
 
     private final List<Command> commands = new ArrayList<>();
     private final List<String> firstJoinCommands = new ArrayList<>();
 
-    @Override
-    public void onEnable() {
-        BeefLibrary.loadConfig(this);
+
+    public void reload() {
+        super.reload();
 
         BeefLibrary.registerListeners(this, this);
 
-        AbstractCommand.builder("respawncommands", SimpleCommand.class)
-                .setPermission("respawncommands")
-                .setMinArgsCount(1)
-                .addSubCommand(AbstractCommand.builder("reload", SimpleCommand.class)
-                        .setOnCommand((sender, strings) -> reload())
-                        .build())
-                .build().register(this);
-
-        reload();
-    }
-
-    public void reload() {
         commands.clear();
         firstJoinCommands.clear();
         ConfigurationSection section = getConfig().getConfigurationSection("commands");
